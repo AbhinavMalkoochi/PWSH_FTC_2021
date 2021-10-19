@@ -1,65 +1,75 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
-        package org.firstinspires.ftc.teamcode;
-        import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-        import com.qualcomm.robotcore.hardware.DcMotor;
-
-@Disabled
 @TeleOp
 
 public class TeleOpMain extends LinearOpMode {
 
-    DcMotor motorFL, motorBL, motorBR, motorFR, intakeHex;
-
-
+    DcMotor motorFL, motorBL, motorBR, motorFR,intakeHex, motorLinearSlide;
+    Servo rotateClawServo, clawServo;
     public void runOpMode() throws InterruptedException{
 
         //Mapping Motors
-        motorFL=hardwareMap.get(DcMotor.class,"FrontLeftMotor");
-        motorBL=hardwareMap.get(DcMotor.class,"BackLeftMotor");
-        motorBR=hardwareMap.get(DcMotor.class,"BackRightMotor");
-        motorFR=hardwareMap.get(DcMotor.class,"FrontRightMotor");
+        motorFL = hardwareMap.get(DcMotor.class, "FrontLeftMotor");
+        motorBL = hardwareMap.get(DcMotor.class,"BackLeftMotor");
+        motorBR = hardwareMap.get(DcMotor.class,"BackRightMotor");
+        motorFR = hardwareMap.get(DcMotor.class,"FrontRightMotor");
         intakeHex = hardwareMap.get(DcMotor.class, "IntakeHexMotor");
-
-        //Setting motor behavior when power is zero
-        motorLF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        motorLB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        motorRB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-
-        motorFR.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBR.setDirection(DcMotorSimple.Direction.REVERSE);
-
+        motorLinearSlide = hardwareMap.get(DcMotor.class, "LinearSlideMotor");
+        rotateClawServo = hardwareMap.get(Servo.class,"RotateServo");
+        clawServo = hardwareMap.get(Servo.class,"ClawServo");
         intakeHex.setPower(0.0);
 
         waitForStart();
 
         while (opModeIsActive()) {
 
-            double y = -gamepad1.left_stick_y*0.3;
-            double x = gamepad1.left_stick_x*1.1;
-            double dx = gamepad1.right_stick_x*0.3;
-            double hexP = gamepad.a*0.3;
-
+            //driver gamepad control
+            double y = -gamepad1.left_stick_y*0.7;
+            double x = gamepad1.left_stick_x*0.7;
+            double dx = gamepad1.right_stick_x*0.7;
+            /*
+            double intakeHexPower = gamepad1.a*0.3;
+            double linearSlidePower = gamepad1.b*0.3;
+            double clawPower = gamepad1.y*0.3;
+            double rotateClawPower = gamepad1.x*0.3;
+            */
             double motorFLPower = (y + x + dx);
             double motorBLPower = (y - x + dx);
             double motorFRPower = (y - x - dx);
             double motorBRPower = (y + x - dx);
-            double motorHEXPower = (hexP); 
-            
+
             motorFL.setPower(motorFLPower);
             motorFR.setPower(motorFRPower);
             motorBL.setPower(motorBLPower);
             motorBR.setPower(motorBRPower);
-            intakeHex.setPower(hexP); 
+
+            if(gamepad1.a){
+                intakeHex.setPower(0.3);
+            }
+            if(gamepad1.b){
+                motorLinearSlide.setPower(0.3);
+            }
+            if(gamepad1.y){
+                clawServo.setPosition(1.0);
+            }
+            if(gamepad1.x){
+                rotateClawServo.setPosition(1.0);
+            }
+            motorLinearSlide.setPower(linearSlidePower);
+            clawServo.setPower(clawPower);
+            rotateClawServo.setPower(rotateClawPower);
+
 
 
         }
-
     }
-
-
-
-
 }
