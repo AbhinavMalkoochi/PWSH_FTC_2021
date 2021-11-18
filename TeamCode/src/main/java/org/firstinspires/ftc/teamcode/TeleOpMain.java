@@ -27,9 +27,12 @@ public class TeleOpMain extends LinearOpMode {
         motorLinearSlide = hardwareMap.get(DcMotor.class, "LinearSlideMotor");
         rotateClawServo = hardwareMap.get(Servo.class,"RotateServo");
         clawServo = hardwareMap.get(Servo.class,"ClawServo");
+        motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         intakeHex.setPower(0.0);
         motorLinearSlide.setPower(0.0);
-        motorFLSecond.setPower(0.0);
         motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -37,7 +40,15 @@ public class TeleOpMain extends LinearOpMode {
         intakeHex.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLinearSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         duckMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        motorFLSecond.setPower(0.0);
+        motorFL.setPower(0.0);
+        motorBL.setPower(0.0);
+        motorFR.setPower(0.0);
+        motorBR.setPower(0.0);
+        motorFL.setTargetPosition(0);
+        motorBL.setTargetPosition(0);
+        motorFR.setTargetPosition(0);
+        motorBR.setTargetPosition(0);
 
   /*      motorFL.setDirection(DcMotor.Direction.REVERSE);
         motorBR.setDirection(DcMotor.Direction.REVERSE);
